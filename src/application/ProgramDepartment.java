@@ -20,6 +20,12 @@ public class ProgramDepartment {
 		List<Department> list = depdao.findAll();
 		list.forEach(System.out::println);
 		
+		System.out.println("\n===== TEST 3: Department insert ======");
+		dep = new Department(7, "Games");
+		depdao.insert(dep);
+		System.out.println("Inserted! New id = " + dep.getId());
+
+		
 	}
 	
 }
