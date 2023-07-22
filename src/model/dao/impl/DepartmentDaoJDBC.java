@@ -28,21 +28,20 @@ public class DepartmentDaoJDBC implements DepartmentDao{
 			ps = conn.prepareStatement("INSERT INTO department (Id, Name) \n"
 					+ "VALUES (?, ?) ", Statement.RETURN_GENERATED_KEYS);
 			
-			ps.setInt(1, obj.getId());
 			ps.setString(2, obj.getName());
 			
-			int rowsAffected = ps.executeUpdate();
+			List<Department> list = findAll();
 			
-			if(rowsAffected > 0) {
-				ResultSet rs = ps.getGeneratedKeys();
-				if(rs.next()) {
-					int id = rs.getInt(1);
-					obj.setId(id);
-				}
-				DB.closeResultSet(rs);
-			}else {
-				throw new DbException("Unexpected error! No rows affected");
+			int rowsAffected = list.size();
+			
+			if(obj.getId() == null) {
+				obj.setId(rowsAffected + 2);
 			}
+			
+			ps.setInt(1, obj.getId());
+			
+			ps.executeUpdate();
+			
 		}catch(SQLException e) {
 			throw new DbException(e.getMessage());
 		}finally {
@@ -52,8 +51,19 @@ public class DepartmentDaoJDBC implements DepartmentDao{
 
 	@Override
 	public void update(Department obj) {
-		// TODO Auto-generated method stub
+		PreparedStatement ps = null;
+		try {
+			ps = conn.prepareStatement("UPDATE department\n"
+					+ "SET Id = ?, Name = ?\n"
+					+ "WHERE Id = ?;", Statement.RETURN_GENERATED_KEYS);
+			
+			ps.setInt(1, obj.getId());
+			ps.setString(2, obj.getName());
+			
 		
+		}catch(SQLException e) {
+			
+		}
 	}
 
 	@Override

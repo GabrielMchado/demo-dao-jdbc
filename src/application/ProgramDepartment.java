@@ -21,8 +21,8 @@ public class ProgramDepartment {
 		list.forEach(System.out::println);
 		
 		System.out.println("\n===== TEST 3: Department insert ======");
-		dep = new Department(7, "Games");
-		depdao.insert(dep);
+		Department newdep = new Department(null, "Music");
+		depdao.insert(newdep);
 		System.out.println("Inserted! New id = " + dep.getId());
 
 		
