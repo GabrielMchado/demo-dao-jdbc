@@ -55,14 +55,18 @@ public class DepartmentDaoJDBC implements DepartmentDao{
 		try {
 			ps = conn.prepareStatement("UPDATE department\n"
 					+ "SET Id = ?, Name = ?\n"
-					+ "WHERE Id = ?;", Statement.RETURN_GENERATED_KEYS);
+					+ "WHERE Id = ?", Statement.RETURN_GENERATED_KEYS);
 			
 			ps.setInt(1, obj.getId());
 			ps.setString(2, obj.getName());
+			ps.setInt(3, obj.getId());
 			
+			ps.executeUpdate();
 		
 		}catch(SQLException e) {
-			
+			throw new DbException(e.getMessage());
+		}finally {
+			DB.closeStatement(ps);
 		}
 	}
 
